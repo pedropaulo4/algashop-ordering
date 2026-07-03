@@ -1,0 +1,30 @@
+package com.algaworks.algashop.ordering.domain.model.valueobject;
+
+import com.algaworks.algashop.ordering.domain.model.validators.FieldValidations;
+import lombok.Builder;
+
+import java.util.Objects;
+
+@Builder
+public record Address(
+        String street,
+        String number,
+        String complement,
+        String neighborhood,
+        String city,
+        String state,
+        ZipCode zipCode
+
+
+) {
+    @Builder(toBuilder = true)
+    public Address {
+        FieldValidations.requiresNonBlank(street);
+        FieldValidations.requiresNonBlank(neighborhood);
+        FieldValidations.requiresNonBlank(city);
+        FieldValidations.requiresNonBlank(number);
+        FieldValidations.requiresNonBlank(state);
+        Objects.requireNonNull(zipCode);
+
+    }
+}
