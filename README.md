@@ -1,6 +1,6 @@
-# 🛒 AlgoShop Ordering
+# 🛒 AlgaShop Ordering
 
-> Serviço responsável pelo gerenciamento do domínio de pedidos da plataforma **AlgoShop**, desenvolvido seguindo princípios de **Domain-Driven Design (DDD)** e arquitetura em camadas.
+> Serviço responsável pelo gerenciamento do domínio de pedidos da plataforma **AlgaShop**, desenvolvido seguindo princípios de **Domain-Driven Design (DDD)** e arquitetura em camadas.
 
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-brightgreen)
@@ -13,7 +13,7 @@
 
 # 📖 Sobre
 
-O **Ordering Service** representa o domínio responsável pela criação e gerenciamento de pedidos do ecossistema AlgoShop.
+O **Ordering Service** representa o domínio responsável pela criação e gerenciamento de pedidos do ecossistema AlgaShop.
 
 O projeto foi desenvolvido priorizando modelagem de domínio rica, encapsulamento de regras de negócio e baixo acoplamento entre as camadas da aplicação.
 
