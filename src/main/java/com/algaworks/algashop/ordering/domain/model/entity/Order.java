@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Order {
+public class Order implements AggregateRoot<OrderId> {
 
     private OrderId id;
     private CustomerId customerId;
@@ -37,8 +37,10 @@ public class Order {
 
     private Set<OrderItem> items;
 
+    private Long version;
+
     @Builder(builderClassName = "ExistingOrderBuilder", builderMethodName = "existing")
-    public Order(OrderId id, CustomerId customerId, Money totalAmount, Quantity totalItems, OffsetDateTime placedAt,
+    public Order(OrderId id,Long version, CustomerId customerId, Money totalAmount, Quantity totalItems, OffsetDateTime placedAt,
                  OffsetDateTime paidAt, OffsetDateTime canceledAt, OffsetDateTime readyAt, Billing billing,
                  Shipping shipping, OrderStatus status, PaymentMethod paymentMethod, Set<OrderItem> items) {
         this.setId(id);
@@ -54,11 +56,14 @@ public class Order {
         this.setStatus(status);
         this.setPaymentMethod(paymentMethod);
         this.setItems(items);
+        this.setVersion(version);
     }
+
 
     public static Order draft(CustomerId  customerId) {
         return new Order(
                 new OrderId(),
+                null,
                 customerId,
                 Money.ZERO,
                 Quantity.ZERO,
@@ -283,6 +288,10 @@ public class Order {
         return paymentMethod;
     }
 
+    public Long version() {
+        return version;
+    }
+
 
     public Set<OrderItem> items() {
         return Collections.unmodifiableSet(this.items);
@@ -291,6 +300,11 @@ public class Order {
     private void setId(OrderId id) {
         Objects.requireNonNull(id);
         this.id = id;
+    }
+
+
+    private void setVersion(Long version) {
+        this.version = version;
     }
 
     private void setCustomerId(CustomerId customerId) {
