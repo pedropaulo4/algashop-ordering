@@ -18,14 +18,22 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	mockitoAgent
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.fasterxml.uuid:java-uuid-generator:5.1.0'
 	implementation 'commons-validator:commons-validator:1.9.0'
 	implementation 'io.hypersistence:hypersistence-tsid:2.1.4'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	runtimeOnly 'com.h2database:h2'
 
+	mockitoAgent('org.mockito:mockito-core:5.14.2') {
+		transitive = false
+	}
+
+	runtimeOnly 'com.h2database:h2'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -39,21 +47,19 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
 
-test {
 	filter {
-		excludeTestsMatching("*IT")
+		excludeTestsMatching '*IT'
 	}
+
+	jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
 }
 
-tasks.named('check') {
-	dependsOn(test, integrationTest)
-}
-
-tasks.create(name: 'integrationTest', type: Test) {
+tasks.register('integrationTest', Test) {
 	description = 'Run integration tests.'
 	group = 'verification'
+
+	jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
 
 	testClassesDirs = sourceSets.test.output.classesDirs
 	classpath = sourceSets.test.runtimeClasspath
@@ -61,12 +67,16 @@ tasks.create(name: 'integrationTest', type: Test) {
 	useJUnitPlatform()
 
 	testLogging {
-		events "passed"
+		events 'passed'
 	}
 
 	filter {
-		includeTestsMatching "*IT"
-		excludeTestsMatching "*Test"
+		includeTestsMatching '*IT'
+		excludeTestsMatching '*Test'
 	}
+}
 
+tasks.named('check') {
+	dependsOn tasks.named('test')
+	dependsOn tasks.named('integrationTest')
 }
