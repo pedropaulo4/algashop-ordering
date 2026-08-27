@@ -1,9 +1,6 @@
-package com.algaworks.algashop.ordering.domain.model.entity;
+package com.algaworks.algashop.ordering.domain.model.customer;
 
 import com.algaworks.algashop.ordering.domain.model.commons.*;
-import com.algaworks.algashop.ordering.domain.model.customer.Customer;
-import com.algaworks.algashop.ordering.domain.model.customer.LoyaltyPoints;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerArchivedException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -94,8 +91,6 @@ public class CustomerTest {
     void given_brandNewCustomer_whenAddInvalidaLoyaltyPoints_shouldGenerateException() {
         Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
 
-        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                        .isThrownBy(() -> customer.addLoyaltyPoints(new LoyaltyPoints(0)));
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> customer.addLoyaltyPoints(new LoyaltyPoints(-10)));

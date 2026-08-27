@@ -1,4 +1,6 @@
 package com.algaworks.algashop.ordering.domain.model.product;
 
-public class ProductNotFoundException {
+import com.algaworks.algashop.ordering.domain.model.DomainException;
+
+public class ProductNotFoundException  extends DomainException  {
 }

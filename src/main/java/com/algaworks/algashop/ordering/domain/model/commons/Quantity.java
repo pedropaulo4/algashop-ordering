@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.domain.model.valueobject;
+package com.algaworks.algashop.ordering.domain.model.commons;
 
 import java.io.Serializable;
 import java.util.Objects;

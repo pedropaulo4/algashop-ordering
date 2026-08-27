@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.domain.model.valueobject;
+package com.algaworks.algashop.ordering.domain.model.product;
 
 import java.util.Objects;
 

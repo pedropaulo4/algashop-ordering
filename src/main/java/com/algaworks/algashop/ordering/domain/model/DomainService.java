@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.domain.model.utility;
+package com.algaworks.algashop.ordering.domain.model;
 
 import java.lang.annotation.*;
 

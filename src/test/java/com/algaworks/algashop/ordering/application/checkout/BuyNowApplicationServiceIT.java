@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.application.ordering;
+package com.algaworks.algashop.ordering.application.checkout;
 
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerTestDataBuilder;

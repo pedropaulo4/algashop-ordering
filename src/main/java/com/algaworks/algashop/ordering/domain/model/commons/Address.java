@@ -1,6 +1,6 @@
-package com.algaworks.algashop.ordering.domain.model.valueobject;
+package com.algaworks.algashop.ordering.domain.model.commons;
 
-import com.algaworks.algashop.ordering.domain.model.validators.FieldValidations;
+import com.algaworks.algashop.ordering.domain.model.FieldValidations;
 import lombok.Builder;
 
 import java.util.Objects;

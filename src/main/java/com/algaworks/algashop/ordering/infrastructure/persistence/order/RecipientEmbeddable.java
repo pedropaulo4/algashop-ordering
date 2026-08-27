@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.order;
+package com.algaworks.algashop.ordering.infrastructure.persistence.order;
 
 
 import jakarta.persistence.Embeddable;

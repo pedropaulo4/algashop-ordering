@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.shipping.client.rapidex;
+package com.algaworks.algashop.ordering.infrastructure.shipping.client.rapidex.fake;
 
 import com.algaworks.algashop.ordering.domain.model.commons.Address;
 import com.algaworks.algashop.ordering.domain.model.commons.ZipCode;

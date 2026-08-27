@@ -1,10 +1,8 @@
-package com.algaworks.algashop.ordering.domain.model.exception;
+package com.algaworks.algashop.ordering.domain.model.order;
 
 import com.algaworks.algashop.ordering.domain.model.DomainException;
-import com.algaworks.algashop.ordering.domain.model.order.OrderStatus;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderId;
 
-import static com.algaworks.algashop.ordering.domain.model.exception.ErrorMessages.ERROR_STATUS_CANNOT_BE_CHANGED;
+import static com.algaworks.algashop.ordering.domain.model.ErrorMessages.ERROR_STATUS_CANNOT_BE_CHANGED;
 
 public class OrderStatusCannotBeChangedException extends DomainException {
 

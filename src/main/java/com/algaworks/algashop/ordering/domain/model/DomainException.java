@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.domain.model.exception;
+package com.algaworks.algashop.ordering.domain.model;
 
 public class DomainException extends RuntimeException{
 

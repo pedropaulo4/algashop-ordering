@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.shipping.client.rapidex;
+package com.algaworks.algashop.ordering.infrastructure.shipping.client.rapidex.rapidex;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

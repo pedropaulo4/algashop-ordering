@@ -1,11 +1,8 @@
-package com.algaworks.algashop.ordering.domain.model.service;
+package com.algaworks.algashop.ordering.domain.model.customer;
 
-import com.algaworks.algashop.ordering.domain.model.entity.Customer;
 import com.algaworks.algashop.ordering.domain.model.order.Order;
-import com.algaworks.algashop.ordering.domain.model.exception.CantAddLoyaltyPointsOrderIsNotReadyException;
 import com.algaworks.algashop.ordering.domain.model.order.OrderNotBelongsToCustomerException;
-import com.algaworks.algashop.ordering.domain.model.utility.DomainService;
-import com.algaworks.algashop.ordering.domain.model.valueobject.LoyaltyPoints;
+import com.algaworks.algashop.ordering.domain.model.DomainService;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
 
 import java.util.Objects;

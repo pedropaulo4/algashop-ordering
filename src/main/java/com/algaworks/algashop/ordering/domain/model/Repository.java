@@ -1,6 +1,4 @@
-package com.algaworks.algashop.ordering.domain.model.repository;
-
-import com.algaworks.algashop.ordering.domain.model.AggregateRoot;
+package com.algaworks.algashop.ordering.domain.model;
 
 import java.util.Optional;
 

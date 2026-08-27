@@ -1,6 +1,5 @@
-package com.algaworks.algashop.ordering.domain.model.valueobject;
+package com.algaworks.algashop.ordering.domain.model.customer;
 
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

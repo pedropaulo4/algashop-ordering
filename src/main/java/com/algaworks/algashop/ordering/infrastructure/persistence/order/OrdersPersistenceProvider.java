@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.order;
+package com.algaworks.algashop.ordering.infrastructure.persistence.order;
 
 import com.algaworks.algashop.ordering.domain.model.order.Order;
 import com.algaworks.algashop.ordering.domain.model.order.Orders;

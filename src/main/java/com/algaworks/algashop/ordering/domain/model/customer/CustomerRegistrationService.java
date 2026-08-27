@@ -1,12 +1,7 @@
-package com.algaworks.algashop.ordering.domain.model.service;
+package com.algaworks.algashop.ordering.domain.model.customer;
 
 import com.algaworks.algashop.ordering.domain.model.commons.*;
-import com.algaworks.algashop.ordering.domain.model.entity.Customer;
-import com.algaworks.algashop.ordering.domain.model.exception.CustomerEmailIsInUseException;
-import com.algaworks.algashop.ordering.domain.model.repository.Customers;
-import com.algaworks.algashop.ordering.domain.model.utility.DomainService;
-import com.algaworks.algashop.ordering.domain.model.valueobject.*;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
+import com.algaworks.algashop.ordering.domain.model.DomainService;
 import lombok.RequiredArgsConstructor;
 
 @DomainService

@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.domain.model.entity;
+package com.algaworks.algashop.ordering.domain.model;
 
 public interface AggregateRoot <ID>{
 

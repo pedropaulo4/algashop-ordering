@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.fake;
+package com.algaworks.algashop.ordering.infrastructure.shipping.client.rapidex.fake;
 
 import com.algaworks.algashop.ordering.domain.model.order.shipping.ShippingCostService;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;

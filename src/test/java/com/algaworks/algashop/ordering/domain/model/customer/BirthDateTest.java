@@ -1,7 +1,6 @@
-package com.algaworks.algashop.ordering.domain.model.valueobject;
+package com.algaworks.algashop.ordering.domain.model.customer;
 
 
-import com.algaworks.algashop.ordering.domain.model.customer.BirthDate;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
