@@ -71,9 +71,9 @@ public class CustomerTest {
         Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                 .isThrownBy(() -> customer.changePhone(new Phone("123-123-1111")));
         Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
-                .isThrownBy(() -> customer.disablePromotionNotifications());
+                .isThrownBy(customer::disablePromotionNotifications);
         Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
-                .isThrownBy(() -> customer.enablePromotionNotifications());
+                .isThrownBy(customer::enablePromotionNotifications);
     }
 
     @Test
@@ -95,5 +95,27 @@ public class CustomerTest {
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> customer.addLoyaltyPoints(new LoyaltyPoints(-10)));
 
+    }
+
+    @Test
+    void givenValidData_whenCreateBrandNewCustomer_shouldGenerateCustomerRegistredEvent() {
+
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+
+        CustomerRegistredEvent event = new CustomerRegistredEvent(customer.id(), customer.registeredAt(), customer.fullName(), customer.email());
+
+        Assertions.assertThat(customer.domainEvent()).contains(event);
+
+    }
+
+    @Test
+    void givenUnarchivedCustomer_whenArchive_shouldGenerateCustomerArchivedEvent() {
+        Customer customer = CustomerTestDataBuilder.existingCustomer().archived(false).archivedAt(null).build();
+
+        customer.archive();
+
+        CustomerArchivedEvent event = new CustomerArchivedEvent(customer.id(), customer.archivedAt());
+
+        Assertions.assertThat(customer.domainEvent()).contains(event);
     }
 }

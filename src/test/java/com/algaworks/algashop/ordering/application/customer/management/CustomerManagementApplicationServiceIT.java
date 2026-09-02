@@ -1,11 +1,17 @@
 package com.algaworks.algashop.ordering.application.customer.management;
 
+import com.algaworks.algashop.ordering.application.customer.notification.CustomerNotificationApplicationService;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerArchivedEvent;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerArchivedException;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerNotFoundException;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerRegistredEvent;
+import com.algaworks.algashop.ordering.infrastructure.listener.customer.CustomerEventListerner;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -17,6 +23,12 @@ class CustomerManagementApplicationServiceIT {
 
     @Autowired
     private CustomerManagementApplicationService customerManagementApplicationService;
+
+    @MockitoSpyBean
+    private CustomerEventListerner customerEventListerner;
+
+    @MockitoSpyBean
+    private CustomerNotificationApplicationService customerNotificationService;
 
     @Test
     public void shouldRegister() {
@@ -43,6 +55,15 @@ class CustomerManagementApplicationServiceIT {
                 );
 
         Assertions.assertThat(customerOutput.getRegisteredAt()).isNotNull();
+
+        Mockito.verify(customerEventListerner)
+                .listen(Mockito.any(CustomerRegistredEvent.class));
+
+        Mockito.verify(customerEventListerner, Mockito.never())
+                .listen(Mockito.any(CustomerArchivedEvent.class));
+
+        Mockito.verify(customerNotificationService)
+                .notifyNewRegistration(Mockito.any(CustomerNotificationApplicationService.NotifyNewRegistrationInput.class));
     }
 
     @Test
