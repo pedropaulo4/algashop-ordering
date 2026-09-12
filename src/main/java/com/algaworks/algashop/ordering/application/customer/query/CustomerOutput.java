@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.application.customer.management;
+package com.algaworks.algashop.ordering.application.customer.query;
 
 import com.algaworks.algashop.ordering.application.commons.AddressData;
 import lombok.AllArgsConstructor;
@@ -10,12 +10,11 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class CustomerOutput {
-
     private UUID id;
     private String firstName;
     private String lastName;
@@ -23,13 +22,10 @@ public class CustomerOutput {
     private String document;
     private String phone;
     private LocalDate birthDate;
-    private Boolean promotionNotificationsAllowed;
     private Integer loyaltyPoints;
-    private AddressData address;
     private OffsetDateTime registeredAt;
     private OffsetDateTime archivedAt;
+    private Boolean promotionNotificationsAllowed;
     private Boolean archived;
-
-
-
+    private AddressData address;
 }
