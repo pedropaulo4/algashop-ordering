@@ -39,6 +39,7 @@ public class OrderPersistenceEntity extends AbstractAggregateRoot<OrderPersisten
     private Integer totalItems;
     private String status;
     private String paymentMethod;
+    private UUID creditCardId;
 
     private OffsetDateTime placedAt;
     private OffsetDateTime paidAt;
@@ -90,7 +91,7 @@ public class OrderPersistenceEntity extends AbstractAggregateRoot<OrderPersisten
     })
     private ShippingEmbeddable shipping;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItemPersistenceEntity> items = new HashSet<>();
 
     @Builder

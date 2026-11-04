@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -28,6 +29,7 @@ public class OrderDetailOutput {
     private String paymentMethod;
     private ShippingData shipping;
     private BillingData billing;
+    private UUID creditCardId;
 
     private List<OrderItemDetailOutput> items = new ArrayList<>();
 }

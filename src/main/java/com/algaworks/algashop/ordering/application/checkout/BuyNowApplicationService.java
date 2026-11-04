@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.checkout;
 
+import com.algaworks.algashop.ordering.domain.model.DomainException;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.commons.ZipCode;
 import com.algaworks.algashop.ordering.domain.model.customer.Customer;
@@ -10,9 +11,10 @@ import com.algaworks.algashop.ordering.domain.model.order.*;
 import com.algaworks.algashop.ordering.domain.model.order.shipping.OriginAddressService;
 import com.algaworks.algashop.ordering.domain.model.order.shipping.ShippingCostService;
 import com.algaworks.algashop.ordering.domain.model.product.Product;
+import com.algaworks.algashop.ordering.domain.model.product.ProductCatalogService;
 import com.algaworks.algashop.ordering.domain.model.product.ProductId;
 import com.algaworks.algashop.ordering.domain.model.product.ProductNotFoundException;
-import com.algaworks.algashop.ordering.infrastructure.product.client.fake.ProductCatalogService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +44,17 @@ public class BuyNowApplicationService {
         PaymentMethod paymentMethod = PaymentMethod.valueOf(input.getPaymentMethod());
         CustomerId customerId = new CustomerId(input.getCustomerId());
         Quantity quantity = new Quantity(input.getQuantity());
-
         Product product = findProduct(new ProductId(input.getProductId()));
+        CreditCardId creditCardId = null;
+
+        if(paymentMethod.equals(PaymentMethod.CREDIT_CARD)) {
+            if(input.getCreditCardId() == null ) {
+                throw new DomainException("Credit card id is required");
+            }
+
+            creditCardId = new CreditCardId(input.getCreditCardId());
+
+        }
 
         var shippingCalculationResult = calculateShippingCost(input.getShipping());
 
@@ -54,9 +65,9 @@ public class BuyNowApplicationService {
 
         Billing billing = billingInputDisassembler.toDomainModel(input.getBilling());
 
-        Customer customer = customers.ofId(customerId).orElseThrow(CustomerNotFoundException::new);
+        Customer customer = customers.ofId(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
 
-        Order order = buyNowService.buyNow(product, customer, billing, shipping, quantity, paymentMethod);
+        Order order = buyNowService.buyNow(product, customer, billing, shipping, quantity, paymentMethod, creditCardId);
 
         orders.add(order);
 
@@ -74,7 +85,7 @@ public class BuyNowApplicationService {
     }
 
     private Product findProduct(ProductId productId) {
-        return productCatalogService.ofId(productId).orElseThrow(ProductNotFoundException::new);
+        return productCatalogService.ofId(productId).orElseThrow(() -> new ProductNotFoundException(productId));
     }
 
 }

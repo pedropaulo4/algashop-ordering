@@ -6,7 +6,9 @@ import com.algaworks.algashop.ordering.infrastructure.persistence.customer.Custo
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,13 +28,26 @@ public class ShoppingCartPersistenceEntityAssembler {
         persistenceEntity.setTotalAmount(shoppingCart.totalAmount().value());
         persistenceEntity.setTotalItems(shoppingCart.totalItems().value());
         persistenceEntity.setCreatedAt(shoppingCart.createdAt());
-        persistenceEntity.replaceItems(toOrderItemsEntities(shoppingCart.items()));
+        persistenceEntity.replaceItems(toOrderItemsEntities(shoppingCart.items(), persistenceEntity.getItems()));
         persistenceEntity.addEvents(shoppingCart.domainEvent());
         return persistenceEntity;
     }
 
-    private Set<ShoppingCartItemPersistenceEntity> toOrderItemsEntities(Set<ShoppingCartItem> source) {
-        return source.stream().map(i -> this.mergeItem(new ShoppingCartItemPersistenceEntity(), i)).collect(Collectors.toSet());
+    private Set<ShoppingCartItemPersistenceEntity> toOrderItemsEntities(
+            Set<ShoppingCartItem> source,
+            Set<ShoppingCartItemPersistenceEntity> existingItems) {
+        Map<UUID, ShoppingCartItemPersistenceEntity> existingItemsById = existingItems.stream()
+                .collect(Collectors.toMap(ShoppingCartItemPersistenceEntity::getId, item -> item));
+
+        return source.stream()
+                .map(item -> {
+                    ShoppingCartItemPersistenceEntity persistenceItem = existingItemsById.get(item.id().value());
+                    if (persistenceItem == null) {
+                        persistenceItem = new ShoppingCartItemPersistenceEntity();
+                    }
+                    return mergeItem(persistenceItem, item);
+                })
+                .collect(Collectors.toSet());
     }
 
     private ShoppingCartItemPersistenceEntity mergeItem(ShoppingCartItemPersistenceEntity persistenceEntity, ShoppingCartItem shoppingCartItem

@@ -17,4 +17,5 @@ public class CheckoutInput {
 	private String paymentMethod;
 	private ShippingInput shipping;
 	private BillingData billing;
+	private UUID creditCardId;
 }

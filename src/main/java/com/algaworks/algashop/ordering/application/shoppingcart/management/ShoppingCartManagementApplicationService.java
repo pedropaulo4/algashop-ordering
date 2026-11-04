@@ -4,10 +4,12 @@ import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.product.Product;
 
+
+import com.algaworks.algashop.ordering.domain.model.product.ProductCatalogService;
 import com.algaworks.algashop.ordering.domain.model.product.ProductId;
 import com.algaworks.algashop.ordering.domain.model.product.ProductNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.*;
-import com.algaworks.algashop.ordering.infrastructure.product.client.fake.ProductCatalogService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +35,7 @@ public class ShoppingCartManagementApplicationService {
 				.orElseThrow(()-> new ShoppingCartNotFoundException());
 
 		Product product = productCatalogService.ofId(productId)
-				.orElseThrow(()-> new ProductNotFoundException());
+				.orElseThrow(()-> new ProductNotFoundException(productId));
 
 		shoppingCart.addItem(product, new Quantity(input.getQuantity()));
 

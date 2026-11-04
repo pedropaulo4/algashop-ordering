@@ -52,15 +52,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleDomainEntityNotFoundException(DomainEntityNotFoundException e) {
 
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
-        problemDetail.setTitle("Not Found");
+        problemDetail.setTitle("Not found");
         problemDetail.setDetail(e.getMessage());
         problemDetail.setType(URI.create("/errors/not-found"));
         return problemDetail;
 
     }
 
-    @ExceptionHandler(DomainException.class)
-    public ProblemDetail handleDomainException(DomainException e) {
+    @ExceptionHandler({DomainException.class, UnprocessableEntityException.class})
+    public ProblemDetail handleUnprocessableEntityException(Exception e) {
 
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         problemDetail.setTitle("Unprocessable entity");
@@ -89,6 +89,31 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setTitle("Internal Server Error");
         problemDetail.setDetail("An unexpected internal error occurred.");
         problemDetail.setType(URI.create("/errors/internal"));
+        return problemDetail;
+
+    }
+
+    @ExceptionHandler(GatewayTimeoutException.class)
+    public ProblemDetail handleGatewayTimeoutException(GatewayTimeoutException e) {
+        log.error(e.getMessage(), e);
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.GATEWAY_TIMEOUT);
+        problemDetail.setTitle("Gateway Timeout");
+        problemDetail.setDetail(e.getMessage());
+        problemDetail.setType(URI.create("/errors/gateway-timeout"));
+
+        return problemDetail;
+
+    }
+
+    @ExceptionHandler(BadGatewayException.class)
+    public ProblemDetail handleBadGatewayException(BadGatewayException
+                                                               e) {
+        log.error(e.getMessage(), e);
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_GATEWAY);
+        problemDetail.setTitle("Bad Gateway Timeout");
+        problemDetail.setDetail(e.getMessage());
+        problemDetail.setType(URI.create("/errors/bad-gateway"));
+
         return problemDetail;
 
     }

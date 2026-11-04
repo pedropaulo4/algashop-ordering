@@ -21,5 +21,6 @@ public class BuyNowInput {
     private UUID customerId;
     private Integer quantity;
     private String paymentMethod;
+    private UUID creditCardId;
 
 }

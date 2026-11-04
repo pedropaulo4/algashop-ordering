@@ -16,8 +16,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,29 +33,21 @@ import org.springframework.transaction.annotation.Transactional;
         CustomersPersistenceProvider.class,
         SpringDataAuditingConfig.class
 })
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(properties = "spring.flyway.locations=classpath:db/migration,classpath:db/testdata")
 class OrdersPersistenceProviderIT {
 
     private OrdersPersistenceProvider persistenceProvider;
     private OrderPersistenceEntityRepository entityRepository;
-    private CustomersPersistenceProvider customersPersistenceProvider;
 
     @Autowired
     public OrdersPersistenceProviderIT(OrdersPersistenceProvider persistenceProvider,
-                                       OrderPersistenceEntityRepository entityRepository,
-                                       CustomersPersistenceProvider customersPersistenceProvider) {
+                                       OrderPersistenceEntityRepository entityRepository) {
         this.persistenceProvider = persistenceProvider;
         this.entityRepository = entityRepository;
-        this.customersPersistenceProvider = customersPersistenceProvider;
     }
 
-    @BeforeEach
-    public void setup() {
-        if(!customersPersistenceProvider.exists(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)) {
-            customersPersistenceProvider.add(
-                    CustomerTestDataBuilder.existingCustomer().build()
-            );
-        }
-    }
+
 
     @Test
     public void shouldUpdateAndKeepPersistenceState() {

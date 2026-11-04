@@ -42,10 +42,12 @@ public class Order
 
     private Long version;
 
+    private CreditCardId creditCardId;
+
     @Builder(builderClassName = "ExistingOrderBuilder", builderMethodName = "existing")
     public Order(OrderId id,Long version, CustomerId customerId, Money totalAmount, Quantity totalItems, OffsetDateTime placedAt,
                  OffsetDateTime paidAt, OffsetDateTime canceledAt, OffsetDateTime readyAt, Billing billing,
-                 Shipping shipping, OrderStatus status, PaymentMethod paymentMethod, Set<OrderItem> items) {
+                 Shipping shipping, OrderStatus status, PaymentMethod paymentMethod, Set<OrderItem> items, CreditCardId creditCardId) {
         this.setId(id);
         this.setCustomerId(customerId);
         this.setTotalAmount(totalAmount);
@@ -60,6 +62,8 @@ public class Order
         this.setPaymentMethod(paymentMethod);
         this.setItems(items);
         this.setVersion(version);
+        this.setCreditCardId(creditCardId);
+
     }
 
 
@@ -78,7 +82,8 @@ public class Order
                 null,
                 OrderStatus.DRAFT,
                 null,
-                new HashSet<>()
+                new HashSet<>(),
+                null
         );
     }
 
@@ -194,8 +199,15 @@ public class Order
         this.recalculateTotals();
     }
 
-    public void changePaymentMethod(PaymentMethod paymentMethod) {
+    public void changePaymentMethod(PaymentMethod paymentMethod, CreditCardId creditCardId) {
+
         Objects.requireNonNull(paymentMethod);
+
+        if(paymentMethod.equals(PaymentMethod.CREDIT_CARD)) {
+            Objects.requireNonNull(creditCardId);
+            this.setCreditCardId(creditCardId);
+        }
+
         verifyIfChangeable();
         this.setPaymentMethod(paymentMethod);
     }
@@ -307,6 +319,14 @@ public class Order
 
     public Set<OrderItem> items() {
         return Collections.unmodifiableSet(this.items);
+    }
+
+    public CreditCardId creditCardId() {
+        return creditCardId;
+    }
+
+    private void setCreditCardId(CreditCardId creditCardId) {
+        this.creditCardId = creditCardId;
     }
 
     private void setId(OrderId id) {

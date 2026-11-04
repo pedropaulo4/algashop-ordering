@@ -12,6 +12,13 @@ import java.util.HashSet;
 public class OrderPersistenceEntityDisassembler {
 
     public Order toDomainEntity(OrderPersistenceEntity persistenceEntity) {
+
+        CreditCardId creditCardId = null;
+        if (persistenceEntity.getCreditCardId() != null) {
+            creditCardId = new CreditCardId(persistenceEntity.getCreditCardId());
+
+        }
+
         return Order.existing()
                 .id(new OrderId(persistenceEntity.getId()))
                 .customerId(new CustomerId(persistenceEntity.getCustomerId()))
@@ -25,6 +32,7 @@ public class OrderPersistenceEntityDisassembler {
                 .readyAt(persistenceEntity.getReadyAt())
                 .items(new HashSet<>())
                 .version(persistenceEntity.getVersion())
+                .creditCardId(creditCardId)
                 .build();
     }
 
@@ -50,6 +58,7 @@ public class OrderPersistenceEntityDisassembler {
                 .document(new Document(billingEmbeddable.getDocument()))
                 .phone(new Phone(billingEmbeddable.getPhone()))
                 .address(toAddressValueObject(billingEmbeddable.getAddress()))
+                .email(new Email(billingEmbeddable.getEmail()))
                 .build();
     }
 
